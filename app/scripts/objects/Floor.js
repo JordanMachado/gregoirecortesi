@@ -13,7 +13,7 @@ export default class Floor extends THREE.Object3D {
     this.timeScale = 1;
     this.pointSizeScale = 1;
     const loader = new THREE.TextureLoader();
-    loader.load('/assets/particle.png', (texture) => {
+    loader.load('./assets/particle.png', (texture) => {
       this.uniforms.texture.value = texture;
     });
 
