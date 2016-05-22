@@ -8,7 +8,7 @@ const VignettePass = require('@superguigui/wagner/src/passes/vignette/VignettePa
 const NoisePass = require('@superguigui/wagner/src/passes/noise/noise');
 
 // Objects
-import Cube from './objects/cube/Cube';
+import Floor from './objects/Floor';
 
 export default class WebGL {
   constructor(params) {
@@ -32,8 +32,9 @@ export default class WebGL {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(params.size.width, params.size.height);
-    this.renderer.setClearColor(0x262626);
+    this.renderer.setClearColor(0xEDEDED);
 
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
     this.composer = null;
     this.initPostprocessing();
@@ -53,6 +54,8 @@ export default class WebGL {
     this.fxaaPass = new FXAAPass();
     this.passes.push(this.fxaaPass);
     this.noisePass = new NoisePass();
+    this.noisePass.params.amount = 0.04;
+    this.noisePass.params.speed = 0.2;
     this.passes.push(this.noisePass);
     this.vignettePass = new VignettePass({});
     this.passes.push(this.vignettePass);
@@ -62,9 +65,8 @@ export default class WebGL {
 
   }
   initObjects() {
-    this.cube = new Cube();
-    this.cube.position.set(0, 0, 0);
-    this.scene.add(this.cube);
+    this.floor = new Floor({ renderer: this.renderer });
+    this.scene.add(this.floor);
   }
   initGUI() {
     this.folder = window.gui.addFolder(this.params.name);
@@ -124,8 +126,9 @@ export default class WebGL {
     } else {
       this.renderer.render(this.scene, this.camera);
     }
+    this.controls.update();
 
-    this.cube.update();
+    this.floor.update();
   }
   rayCast() {
     this.raycaster.setFromCamera(this.mouse, this.camera);
