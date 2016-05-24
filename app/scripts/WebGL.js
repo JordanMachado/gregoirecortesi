@@ -32,7 +32,7 @@ export default class WebGL {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(params.size.width, params.size.height);
-    this.renderer.setClearColor(0xEDEDED);
+    this.renderer.setClearColor(0xf6f6f6);
 
     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
@@ -58,6 +58,9 @@ export default class WebGL {
     this.noisePass.params.speed = 0.2;
     this.passes.push(this.noisePass);
     this.vignettePass = new VignettePass({});
+    this.vignettePass.params.boost = 1.05;
+    this.vignettePass.params.reduction = 0.5;
+
     this.passes.push(this.vignettePass);
 
   }

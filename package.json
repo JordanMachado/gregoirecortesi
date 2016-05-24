@@ -24,6 +24,7 @@
     "gsap": "*",
     "hex-rgb": "^1.0.0",
     "konami-js": "0.0.2",
+    "node-sass": "^3.7.0",
     "querystringparser": "^0.1.1",
     "raf": "*",
     "three": "*",
