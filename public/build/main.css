@@ -70,3 +70,7 @@ h1 {
       margin-left: 10px;
       margin-right: 10px;
       background: #8e8e8e; }
+
+.projects {
+  position: absolute;
+  display: none; }

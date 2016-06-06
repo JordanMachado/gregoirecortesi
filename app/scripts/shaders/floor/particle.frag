@@ -1,5 +1,3 @@
-varying vec4 buffer;
-varying vec2 vUv;
 uniform sampler2D texture;
 varying vec3 vColor;
 

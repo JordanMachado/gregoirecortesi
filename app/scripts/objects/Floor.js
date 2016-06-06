@@ -8,9 +8,9 @@ export default class Floor extends THREE.Object3D {
     super();
 
     this.tick = 0;
-    this.repeat = 1;
-    this.noiseScale = 1;
-    this.timeScale = 1;
+    this.repeat = 1.4;
+    this.noiseScale = 11.7;
+    this.timeScale = 0.12;
     this.pointSizeScale = 1;
     const loader = new THREE.TextureLoader();
     loader.load('./assets/particle.png', (texture) => {
@@ -108,6 +108,8 @@ export default class Floor extends THREE.Object3D {
     });
 
     this.system = new THREE.Points(this.geom, this.mat);
+    this.system.rotation.x = 90 * Math.PI / 180;
+    this.system.position.z = 30;
 
     this.add(this.system);
     // this.createImage('/assets/yves_klein256.jpg', width, height, -5);
@@ -119,6 +121,10 @@ export default class Floor extends THREE.Object3D {
     this.folder.add(this.system.position, 'x').min(-50).max(50);
     this.folder.add(this.system.position, 'y').min(-50).max(50);
     this.folder.add(this.system.position, 'z').min(-50).max(50);
+
+    this.folder.add(this.system.rotation, 'x').min(0).max(Math.PI * 2);
+    this.folder.add(this.system.rotation, 'y').min(0).max(Math.PI * 2);
+    this.folder.add(this.system.rotation, 'z').min(0).max(Math.PI * 2);
     this.folder.add(this, 'repeat').min(0).max(20).onChange(() => {
       this.uniforms.repeat.value = this.repeat;
     });
@@ -134,42 +140,7 @@ export default class Floor extends THREE.Object3D {
     this.folder.open();
 
   }
-  // createImage(img, width, height, elevation) {
-  //   const image = new Image();
-  //   const canvas = document.createElement('canvas');
-  //   canvas.style.position = 'absolute';
-  //   // document.body.appendChild(canvas);
-  //   canvas.width = width;
-  //   canvas.height = height;
-  //   const ctx = canvas.getContext('2d');
-  //   const data = new Float32Array(width * height * 3);
-  //   image.onload = () => {
-  //     ctx.drawImage(image, 0, 0, width, height);
-  //     const imgData = ctx.getImageData(0, 0, width, height).data;
-  //     for (let i = 0; i < width * height; i++) {
-  //       const i3 = i * 3;
-  //       const i4 = i * 4;
-  //       data[i3] = ((i % width) / width - 0.5) * width;
-  //       data[i3 + 1] = ((i / width) / height - 0.5) * height;
-  //       data[i3 + 2] = (imgData[i4] / 0xFF * 0.299 + imgData[i4 + 1] / 0xFF * 0.587 + imgData[i4 + 2] / 0xFF * 0.114) * elevation;
-  //
-  //     }
-  //
-  //     const textureData = new THREE.DataTexture(
-  //       data,
-  //       width,
-  //       height,
-  //       THREE.RGBFormat,
-  //       THREE.FloatType
-  //     );
-  //     textureData.minFilter = THREE.NearsetFilter;
-  //     textureData.magFilter = THREE.NearsetFilter;
-  //     this.simulationShader.uniforms.tPositions.value = textureData;
-  //     this.simulationShader.uniforms.tPositions.value.needsUpdate = true;
-  //   };
-  //   image.src = img;
-  //
-  // }
+
   move(position) {
     this.system.position.set(position.x, position.y, position.z);
   }
