@@ -1,9 +1,11 @@
 
 uniform float tick;
+uniform vec3 mouse;
 uniform float repeat;
 uniform float noiseScale;
 uniform float timeScale;
 uniform float pointSizeScale;
+uniform float size;
 
 attribute float pointSize;
 attribute vec3 color;
@@ -17,7 +19,8 @@ void main() {
 	float noise = snoise2(vec2(pos.x, pos.y + (tick * timeScale))) * noiseScale;
 	vec3 newPosition = position;
 	newPosition.z += noise;
-	gl_PointSize = pointSize * pointSizeScale;
+	float grow = size  - distance(mouse, newPosition);
+	gl_PointSize = pointSize * pointSizeScale + max(grow,0.0);
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 
 }

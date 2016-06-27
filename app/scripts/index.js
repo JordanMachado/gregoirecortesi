@@ -7,7 +7,7 @@ import dat from 'dat-gui';
 import 'gsap';
 
 // Vars
-window.DEBUG = true;
+window.DEBUG = false;
 let device;
 let webGL;
 
@@ -55,11 +55,13 @@ domReady(() => {
 
   if (window.DEBUG || window.DEVMODE) {
     window.gui = new dat.GUI();
+  } else {
+    console.warn = function() {};
   }
   // WebGL
   webGL = new WebGL({
     device,
-    name: 'EXPERIMENT',
+    name: 'EXPERIMENT GREG',
     postProcessing: true,
     size: {
       width: window.innerWidth,
@@ -68,7 +70,32 @@ domReady(() => {
     keyboard: false,
     mouse: false,
   });
+
+  // const links = document.querySelectorAll('a');
+  // for (let i = 0; i < links.length; i++) {
+  //   links[i].addEventListener('mouseenter', () => {
+  //     webGL.hover();
+  //   });
+  // }
   document.body.appendChild(webGL.renderer.domElement);
+  const tl = new TimelineLite();
+  tl.to(document.querySelector('h1'), 2,{
+    autoAlpha: 1,
+    delay: 0.4,
+    ease: Quad.easeOut,
+  });
+  tl.to(document.querySelector('canvas'), 2, {
+    autoAlpha: 1,
+    ease: Quad.easeOut,
+  }, '-=1.8');
+  tl.to(document.querySelector('.projects'), 2, {
+    autoAlpha: 1,
+    ease: Quad.easeOut,
+  }, '-=1.6');
+  tl.to(document.querySelector('.socials'), 2, {
+    autoAlpha: 1,
+    ease: Quad.easeOut,
+  }, '-=1.6');
 
   // Events
   window.addEventListener('resize', resize);
@@ -85,5 +112,6 @@ domReady(() => {
   window.addEventListener('touchmove', touchMove);
 
   // let's start
+  console.log('%c WebGL by Jordan Machado | twitter @xvi_jojo','background:#000000;color:#ffffff');
   animate();
 });

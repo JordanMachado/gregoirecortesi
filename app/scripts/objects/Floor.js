@@ -9,7 +9,10 @@ export default class Floor extends THREE.Object3D {
 
     this.tick = 0;
     this.repeat = 1.4;
+    this.size = 0;
+    this.animating = false;
     this.noiseScale = 11.7;
+    this.mouse = new THREE.Vector3(20000, 20000, 20000);
     this.timeScale = 0.12;
     this.pointSizeScale = 1;
     const loader = new THREE.TextureLoader();
@@ -56,7 +59,7 @@ export default class Floor extends THREE.Object3D {
 
 
       vertices[count * 3 + 0] = ((count % width) / width - 0.5) * width;
-      vertices[count * 3 + 1] = ((count / width) / height - 0.5) * height + (Math.random()*10);
+      vertices[count * 3 + 1] = ((count / width) / height - 0.5) * height + (Math.random() * 10);
       vertices[count * 3 + 2] = 0;
 
       count ++;
@@ -91,6 +94,14 @@ export default class Floor extends THREE.Object3D {
       timeScale: {
         type: 'f',
         value: this.timeScale,
+      },
+      mouse: {
+        type: 'v3',
+        value: this.mouse,
+      },
+      size: {
+        type: 'f',
+        value: this.size,
       },
       pointSizeScale: {
         type: 'f',
@@ -143,6 +154,37 @@ export default class Floor extends THREE.Object3D {
 
   move(position) {
     this.system.position.set(position.x, position.y, position.z);
+  }
+  animate() {
+    const point = new THREE.Vector3(-100, 0, 0);
+    if (this.animating) return;
+    this.animating = true;
+
+    TweenMax.to(point, 5, {
+      x: 300,
+      onUpdate: () => {
+        this.uniforms.mouse.value = point;
+      },
+      ease: Quad.easeOut,
+      onComplete: () => {
+        this.animating = false;
+      }
+    });
+    TweenMax.to(this, 2.5, {
+      size: 20,
+      onUpdate: () => {
+        this.uniforms.size.value = this.size;
+      },
+      ease: Quad.easeOut,
+    });
+    TweenMax.to(this, 2.5, {
+      size: 0,
+      onUpdate: () => {
+        this.uniforms.size.value = this.size;
+      },
+      ease: Quad.easeOut,
+      delay: 2.5
+    });
   }
   update() {
     this.tick += 0.01;

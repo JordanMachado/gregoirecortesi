@@ -9,8 +9,8 @@ import Konami from 'konami-js';
 class LOL {
   constructor() {
     new Konami(this.konami.bind(this));
-    this.parseQuery();
     window.DEVMODE = false;
+    this.parseQuery();
   }
   parseQuery() {
     const parsed = url.parse(window.location.search, true);

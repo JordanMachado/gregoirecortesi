@@ -1,6 +1,7 @@
 @import 'fonts';
 body {
   position: absolute;
+  display: block;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -8,8 +9,21 @@ body {
   overflow: hidden;
   font-family: 'AlteHaasGrotesk-Regular';
   color: #0f0f0f;
+
+  ::selection {
+  background: #E8E8E8;
+  }
+  ::-moz-selection {
+  background: #E8E8E8;
+  }
 }
 
+canvas {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+}
 h1 {
   position: absolute;
   width: 100%;
@@ -17,9 +31,16 @@ h1 {
   text-align: center;
   font-family: 'AlteHaasGrotesk-Bold';
   font-size: 21px;
+  opacity: 0;
+  visibility: hidden;
+
   span {
     font-family: 'AlteHaasGrotesk-Regular';
 
+    .phone & {
+      display: block;
+      margin-top: 10px;
+    }
     &:before {
       position: relative;
       display: inline-block;
@@ -30,6 +51,13 @@ h1 {
       margin-left: 10px;
       margin-right: 10px;
       background: #0f0f0f;
+
+      .phone & {
+        display: block;
+        left:50%;
+        margin: 0;
+        margin-left: -10px;
+      }
     }
   }
 }
@@ -42,12 +70,24 @@ h1 {
   padding: 0;
   margin: 0;
 
+  opacity: 0;
+  visibility: hidden;
+
+  &.phone {
+    bottom: 2%;
+  }
+
   li {
     display: inline-block;
 
     a {
       text-decoration: none;
       color: #8e8e8e;
+      transition: opacity 0.5s ease-out;
+      &:hover {
+        opacity:0.6;
+        transition: opacity 0.5s ease-out;
+      }
     }
     &:first-of-type {
         &:before {
@@ -70,5 +110,63 @@ h1 {
 
 .projects {
   position: absolute;
-  display:none;
+  display: block;
+  text-align: center;
+  width: 450px;
+  left: 50%;
+  margin:0;
+  padding: 0;
+  margin-left: -225px;
+  bottom: 15%;
+
+  opacity: 0;
+  visibility: hidden;
+
+
+
+  li {
+    list-style: none;
+    display: inline-block;
+    .phone & {
+      display: block;
+      padding: 10px;
+
+    }
+    &:first-of-type {
+        a:before {
+          display: none;
+        }
+    }
+    &:nth-child(3) {
+        a:before {
+          display: none;
+        }
+    }
+    a {
+      text-decoration: none;
+      color: #0f0f0f;
+
+      transition: opacity 0.5s ease-out;
+      &:hover {
+        opacity:0.6;
+        transition: opacity 0.5s ease-out;
+      }
+
+      &:before {
+        position: relative;
+        display: inline-block;
+        content:'';
+        width: 10px;
+        height: 2px;
+        top:-5px;
+        margin-left: 10px;
+        margin-right: 10px;
+        background: #0f0f0f;
+        .phone & {
+          display: none;
+
+        }
+      }
+    }
+  }
 }

@@ -17,13 +17,27 @@ export default class WebGL {
       device: params.device || 'desktop',
       postProcessing: params.postProcessing || false,
       keyboard: params.keyboard || false,
-      mouse: params.mouse || false,
+      mouse: params.mouse || true,
       touch: params.touch || false,
     };
+    this.phone = this.params.device === 'phone';
 
     this.mouse = new THREE.Vector2();
     this.originalMouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
+
+    this.damping = {
+      camera: {
+        x: 0.02,
+        y: 0.02,
+        z: 0.02,
+      },
+      mouse: {
+        x: 0.03,
+        y: 0.03,
+        z: 0.03,
+      },
+    };
 
     this.scene = new THREE.Scene();
 
@@ -32,9 +46,10 @@ export default class WebGL {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(params.size.width, params.size.height);
+    this.renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
     this.renderer.setClearColor(0xf6f6f6);
 
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    if (window.DEBUG) this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
     this.composer = null;
     this.initPostprocessing();
@@ -59,7 +74,7 @@ export default class WebGL {
     this.passes.push(this.noisePass);
     this.vignettePass = new VignettePass({});
     this.vignettePass.params.boost = 1.05;
-    this.vignettePass.params.reduction = 0.5;
+    this.vignettePass.params.reduction = (this.phone) ? 0.2 : 0.5;
 
     this.passes.push(this.vignettePass);
 
@@ -68,6 +83,11 @@ export default class WebGL {
 
   }
   initObjects() {
+
+    this.planeRay = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshNormalMaterial({ side: THREE.DoubleSide }));
+    this.planeRay.material.visible = false;
+    this.scene.add(this.planeRay);
+
     this.floor = new Floor({ renderer: this.renderer });
     this.scene.add(this.floor);
   }
@@ -129,22 +149,38 @@ export default class WebGL {
     } else {
       this.renderer.render(this.scene, this.camera);
     }
-    this.controls.update();
+
+    this.camera.rotation.x += (this.mouse.y * this.damping.mouse.x - this.camera.rotation.x)
+     * this.damping.camera.x;
+     this.camera.rotation.y += (-this.mouse.x * this.damping.mouse.y - this.camera.rotation.y)
+     * this.damping.camera.y;
+    //  this.camera.rotation.z += (this.mouse.x * this.damping.mouse.z - this.camera.rotation.z)
+    //  * this.damping.camera.z;
+    //  this.camera.lookAt( this.scene.position );
+    if (window.DEBUG) this.controls.update();
 
     this.floor.update();
   }
+  hover() {
+    this.floor.animate();
+  }
   rayCast() {
     this.raycaster.setFromCamera(this.mouse, this.camera);
-    const intersects = this.raycaster.intersectObject(this.cube, true);
+    const intersects = this.raycaster.intersectObject(this.planeRay, true);
     if (intersects.length > 0) {
-      console.log('yo');
+      this.floor.updateMouse(intersects[0].point);
     }
   }
   // Events
   resize(width, height) {
+
+
     if (this.composer) {
       this.composer.setSize(width, height);
     }
+
+    this.renderer.domElement.width = width * window.devicePixelRatio;
+    this.renderer.domElement.height = height * window.devicePixelRatio;
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
@@ -165,19 +201,19 @@ export default class WebGL {
   }
   click(x, y, time) {
     if (!this.params.mouse) return;
-    console.log('click');
     this.originalMouse.x = x;
     this.originalMouse.y = y;
     this.mouse.x = (x / window.innerWidth - 0.5) * 2;
     this.mouse.y = (y / window.innerHeight - 0.5) * 2;
+
   }
   mouseMove(x, y, ime) {
     if (!this.params.mouse) return;
-    console.log('mousemove');
     this.originalMouse.x = x;
     this.originalMouse.y = y;
     this.mouse.x = (x / window.innerWidth - 0.5) * 2;
     this.mouse.y = (y / window.innerHeight - 0.5) * 2;
+    // this.rayCast();
   }
   touchStart() {
     if (!this.params.touch) return;
