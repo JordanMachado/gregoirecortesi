@@ -4,7 +4,7 @@ const glslify = require('glslify');
 
 
 export default class Floor extends THREE.Object3D {
-  constructor({ renderer }) {
+  constructor({ renderer, phone }) {
     super();
 
     this.tick = 0;
@@ -21,8 +21,9 @@ export default class Floor extends THREE.Object3D {
     });
 
     this.renderer = renderer;
-    const width = 72;
-    const height = 72;
+    const width = phone ? 48 : 72;
+    const height = phone ? 48 : 72;
+    console.log(height);
     this.data = new Float32Array(width * height * 4);
 
     this.geom = new THREE.BufferGeometry();

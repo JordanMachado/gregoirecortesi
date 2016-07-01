@@ -17,7 +17,7 @@ export default class WebGL {
       device: params.device || 'desktop',
       postProcessing: params.postProcessing || false,
       keyboard: params.keyboard || false,
-      mouse: params.mouse || true,
+      mouse: params.mouse || false,
       touch: params.touch || false,
     };
     this.phone = this.params.device === 'phone';
@@ -88,7 +88,7 @@ export default class WebGL {
     this.planeRay.material.visible = false;
     this.scene.add(this.planeRay);
 
-    this.floor = new Floor({ renderer: this.renderer });
+    this.floor = new Floor({ renderer: this.renderer, phone: this.phone });
     this.scene.add(this.floor);
   }
   initGUI() {
@@ -189,15 +189,12 @@ export default class WebGL {
   }
   keyPress() {
     if (!this.params.keyboard) return;
-    console.log('keyPress');
   }
   keyDown() {
     if (!this.params.keyboard) return;
-    console.log('keyDown');
   }
   keyUp() {
     if (!this.params.keyboard) return;
-    console.log('keyUp');
   }
   click(x, y, time) {
     if (!this.params.mouse) return;
@@ -217,15 +214,16 @@ export default class WebGL {
   }
   touchStart() {
     if (!this.params.touch) return;
-    console.log('touchstart');
   }
   touchEnd() {
     if (!this.params.touch) return;
-    console.log('touchend');
   }
-  touchMove() {
+  touchMove(touches) {
     if (!this.params.touch) return;
-    console.log('touchmove');
+    this.originalMouse.x = touches[0].clientX;
+    this.originalMouse.y = touches[0].clientY;
+    this.mouse.x = (touches[0].clientX / window.innerWidth - 0.5) * 2;
+    this.mouse.y = (touches[0].clientY / window.innerHeight - 0.5) * 2;
   }
 
 }

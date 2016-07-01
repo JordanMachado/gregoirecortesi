@@ -30,7 +30,7 @@ h1 {
   top: 5%;
   text-align: center;
   font-family: 'AlteHaasGrotesk-Bold';
-  font-size: 21px;
+  font-size: 18px;
   opacity: 0;
   visibility: hidden;
 
@@ -45,12 +45,13 @@ h1 {
       position: relative;
       display: inline-block;
       content:'';
-      width: 20px;
-      height: 3px;
+      width: 15px;
+      height: 2px;
       top:-5px;
       margin-left: 10px;
       margin-right: 10px;
       background: #0f0f0f;
+      opacity: 0.8;
 
       .phone & {
         display: block;
@@ -103,7 +104,9 @@ h1 {
       top:-5px;
       margin-left: 10px;
       margin-right: 10px;
-      background: #8e8e8e;
+      // background: #8e8e8e;
+      background: transparent;
+
     }
   }
 }
@@ -112,11 +115,11 @@ h1 {
   position: absolute;
   display: block;
   text-align: center;
-  width: 450px;
+  width: 80%;
   left: 50%;
   margin:0;
   padding: 0;
-  margin-left: -225px;
+  margin-left: -40%;
   bottom: 15%;
 
   opacity: 0;
@@ -127,6 +130,8 @@ h1 {
   li {
     list-style: none;
     display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
     .phone & {
       display: block;
       padding: 10px;
@@ -144,6 +149,7 @@ h1 {
     }
     a {
       text-decoration: none;
+      text-align: center;
       color: #0f0f0f;
 
       transition: opacity 0.5s ease-out;
@@ -161,7 +167,9 @@ h1 {
         top:-5px;
         margin-left: 10px;
         margin-right: 10px;
-        background: #0f0f0f;
+        // background: #0f0f0f;
+        // background: transparent;
+        display: none;
         .phone & {
           display: none;
 

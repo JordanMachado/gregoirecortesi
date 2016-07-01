@@ -58,6 +58,7 @@ domReady(() => {
   } else {
     console.warn = function() {};
   }
+  console.log(device);
   // WebGL
   webGL = new WebGL({
     device,
@@ -68,7 +69,8 @@ domReady(() => {
       height: window.innerHeight,
     },
     keyboard: false,
-    mouse: false,
+    mouse: device !== 'phone',
+    touch: device === 'phone',
   });
 
   // const links = document.querySelectorAll('a');
