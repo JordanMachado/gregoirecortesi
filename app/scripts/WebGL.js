@@ -49,7 +49,9 @@ export default class WebGL {
     this.renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
     this.renderer.setClearColor(0xf6f6f6);
 
-    if (window.DEBUG) this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    if (window.DEBUG) {
+      this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    }
 
     this.composer = null;
     this.initPostprocessing();
@@ -84,7 +86,10 @@ export default class WebGL {
   }
   initObjects() {
 
-    this.planeRay = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshNormalMaterial({ side: THREE.DoubleSide }));
+    this.planeRay = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(2000, 2000),
+      new THREE.MeshNormalMaterial({ side: THREE.DoubleSide })
+    );
     this.planeRay.material.visible = false;
     this.scene.add(this.planeRay);
 
@@ -152,7 +157,7 @@ export default class WebGL {
 
     this.camera.rotation.x += (this.mouse.y * this.damping.mouse.x - this.camera.rotation.x)
      * this.damping.camera.x;
-     this.camera.rotation.y += (-this.mouse.x * this.damping.mouse.y - this.camera.rotation.y)
+    this.camera.rotation.y += (-this.mouse.x * this.damping.mouse.y - this.camera.rotation.y)
      * this.damping.camera.y;
     //  this.camera.rotation.z += (this.mouse.x * this.damping.mouse.z - this.camera.rotation.z)
     //  * this.damping.camera.z;

@@ -23,7 +23,6 @@ export default class Floor extends THREE.Object3D {
     this.renderer = renderer;
     const width = phone ? 48 : 72;
     const height = phone ? 48 : 72;
-    console.log(height);
     this.data = new Float32Array(width * height * 4);
 
     this.geom = new THREE.BufferGeometry();
@@ -169,7 +168,7 @@ export default class Floor extends THREE.Object3D {
       ease: Quad.easeOut,
       onComplete: () => {
         this.animating = false;
-      }
+      },
     });
     TweenMax.to(this, 2.5, {
       size: 20,
@@ -184,7 +183,7 @@ export default class Floor extends THREE.Object3D {
         this.uniforms.size.value = this.size;
       },
       ease: Quad.easeOut,
-      delay: 2.5
+      delay: 2.5,
     });
   }
   update() {

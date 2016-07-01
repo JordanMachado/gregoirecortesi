@@ -17,6 +17,8 @@
     "user": true,
     "TweenMax": true,
     "TimelineMax": true,
+    "TimelineLite": true,
+    "Quad": true,
     "Power1": true,
     "Power2": true,
     "Power3": true,

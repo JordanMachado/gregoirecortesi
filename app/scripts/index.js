@@ -50,15 +50,15 @@ function touchMove(e) {
 }
 
 domReady(() => {
+  console.log('%c WebGL by Jordan Machado | twitter @xvi_jojo', 'background:#000000;color:#ffffff');
   device = deviceType(navigator.userAgent);
   document.querySelector('html').classList.add(device);
 
   if (window.DEBUG || window.DEVMODE) {
     window.gui = new dat.GUI();
   } else {
-    console.warn = function() {};
+    console.warn = function warn() {};
   }
-  console.log(device);
   // WebGL
   webGL = new WebGL({
     device,
@@ -81,7 +81,7 @@ domReady(() => {
   // }
   document.body.appendChild(webGL.renderer.domElement);
   const tl = new TimelineLite();
-  tl.to(document.querySelector('h1'), 2,{
+  tl.to(document.querySelector('h1'), 2, {
     autoAlpha: 1,
     delay: 0.4,
     ease: Quad.easeOut,
@@ -114,6 +114,5 @@ domReady(() => {
   window.addEventListener('touchmove', touchMove);
 
   // let's start
-  console.log('%c WebGL by Jordan Machado | twitter @xvi_jojo','background:#000000;color:#ffffff');
   animate();
 });

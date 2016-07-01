@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "budo app/scripts/index.js:build/main.js --dir ./public --live --open -- -t babelify -g glslify  | node-sass -w app/styles/main.scss -o public/build/",
-    "build": "browserify -t babelify -t stripify -g glslify app/scripts/index.js | uglifyjs -o public/build/main.js"
+    "build": "browserify -t babelify -g glslify app/scripts/index.js | uglifyjs -o public/build/main.js"
   },
   "repository": {
     "type": "git",
