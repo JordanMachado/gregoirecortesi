@@ -1,7 +1,10 @@
-threejs-starter
+Gégoire Cortesi
 ===================
+One page website for my friend Grégoire
 
-WIP
+Demo available [here](http://www.gregcortesi.com/).
+
+![Alt text](http://jojo.ninja/share/gregcortesi.png "gregcortesi")
 
 
 
@@ -25,4 +28,5 @@ npm run build
 
 You are good to go !
 
-Fork of [threejs-starter-kit] (https://github.com/vdaguenet/threejs-starter-kit)
+
+[ProtonJS]:http://a-jie.github.io/Proton/
