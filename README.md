@@ -1,4 +1,4 @@
-Gégoire Cortesi
+Grégoire Cortesi
 ===================
 One page website for my friend Grégoire
 
